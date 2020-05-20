@@ -1,0 +1,46 @@
+﻿Programmet ska öppna en ström emot delat minne som exporteras av spelet Assetto Corsa Competizione.
+Syftet med applikationen är att läsa av och presentera aktuell data från spelet i ett enkelt fönster.
+Man ska genom fönstret kunna mata in tex hur långt ett race är och programmet ska då med datan som kommer från spelet räkna ut om 
+den mängd bränsle som finns i bilen räcker för längden på racet. Detta genom att använda datan för hur mycket bränsle per varv som bilen använder
+och med datan för hur många varv som beräknas köras på tiden som racet är igång.
+
+Datan inkluderar sådant som:
+	-Temperatur i asfalten
+	-Temperatur i däcken
+	-Vilken bana man befinner sig på
+	-Vilket förarID som är aktuellt
+	-Hur mycket bränsle man har kvar
+	-Hur mycket bränsle som behövs fyllas på för att ta sig till slutet av racet.
+	m.m
+
+Vi kommer skapa så kallade "struct" klasser som kommer hantera den binära data strömmen åt oss. 
+Varje sådan klass hanterar en egen minnesfil. Dessa tre inkluderar:
+
+	Graphics
+	Physics
+	Static
+
+
+Jag upptäckte efter några tester att jag behöver inkludera alla "fält" för den inkommande datan i PhysicsData, GraphicsData och StaticData.
+Byte datan som inkommer från minnet har ingen logik som placerar rätt "fält" på rätt plats i mina placeholder klasser. Så det första fältet 
+i byte datan passar inte in på första fältet jag hade i min klass. 
+Tex så hade jag som första fält i GraphicsData: 
+												public int Position;
+Men det första datafältet med typen Integer är: public int PacketID;
+
+Så min datamodel visade "Position = 0.7" tex, om det var PacketID som returnerades.
+Det kanske finns något sätt att sortera inkommande data på , men jag kunde inte reda ut detta i tid till inlämmning. Så jag utformade alla
+fälten som spelet returnerade istället, trots att jag inte vill använda alla dessa. 
+
+Datan mottags korrekt nu och läses in i sina klasser. Men min kunskap i C# hindrar mig från att lista ut ett sätt att casta
+datan till UI elementen i mitt "Form". Jag är heller inte helt säker på hur jag kan uppdatera min UI i takt med datans uppdateringsfrekvens.
+Det behövs för de "Label"-fälten som ska visa datan är statiska och behöver uppdateras för att visa den mest aktuella och senaste datan.
+
+Jag tyckte den främsta utmaningen här var att lista ut hur man öppnade en ström och behandlade minne som delats från spelet i fråga.
+Jag har aldrig förut hämtat live-data på detta viset. Att jag inte listade ut ett elegant sätt att visa datan på var mest pga tidsbristen jag 
+hamna i. Men jag lyckades iallafall avläsa datan från minnet tillslut och i korrekt ordning.
+
+Jag tror inte jag uppfyller alla kraven i uppgiften då jag inte fick logiken från datainsamlingen att fungera med användargränssnittet, och därav
+heller inte någon användar-input mekanism. Så ingen data kan matas in av användaren.
+
+Jag kommer fortsätta utveckla appen då jag själv har användning utav den.
